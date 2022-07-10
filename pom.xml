@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>CH1-BIO</module>
+        <module>CH2-NIO</module>
     </modules>
 
     <properties>
