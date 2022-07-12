@@ -53,7 +53,7 @@ public class YqThreadPool {
                 threadSet.add(worker);
                 worker.start();
             } else if (threadSet.size() < maxSize) {
-                Worker worker = new Worker(task, timeout, unit);
+                Worker worker = new Worker(task, true);
                 threadSet.add(worker);
                 worker.start();
             } else {
@@ -75,19 +75,17 @@ public class YqThreadPool {
 
         private boolean tempThread = false;
 
-        private long timeout;
-        private TimeUnit unitUnit;
 
         public Worker(Runnable task) {
             this.task = task;
+            this.setDaemon(true);
         }
 
-        public Worker(Runnable task, long timeout, TimeUnit unit) {
+        public Worker(Runnable task,boolean tempThread) {
             this.task = task;
-            this.timeout = timeout;
-            this.unitUnit = unit;
-
             this.tempThread = true;
+
+            this.setDaemon(true);
         }
 
         @Override
