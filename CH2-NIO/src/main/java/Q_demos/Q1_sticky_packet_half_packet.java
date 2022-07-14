@@ -1,10 +1,8 @@
-package L1_bytebuffer;
+package Q_demos;
 
-import heimaUtil.ByteBufferUtil;
+import xheimaUtil.ByteBufferUtil;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 

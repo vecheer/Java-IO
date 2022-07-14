@@ -25,7 +25,7 @@ public class UnsafeGetter {
 
     public static long getFieldOffset(String fieldName){
         try {
-            return unsafe.objectFieldOffset(YqAtomicInteger.class.getDeclaredField(fieldName));
+            return unsafe.objectFieldOffset(YqAtomicInt.class.getDeclaredField(fieldName));
         } catch (NoSuchFieldException e) {
             throw new RuntimeException("输入了错误的字段名!");
         }

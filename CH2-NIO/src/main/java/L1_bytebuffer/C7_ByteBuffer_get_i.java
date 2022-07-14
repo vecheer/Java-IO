@@ -1,6 +1,6 @@
 package L1_bytebuffer;
 
-import heimaUtil.ByteBufferUtil;
+import xheimaUtil.ByteBufferUtil;
 
 import java.nio.ByteBuffer;
 

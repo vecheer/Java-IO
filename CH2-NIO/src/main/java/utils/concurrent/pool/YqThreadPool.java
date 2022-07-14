@@ -3,6 +3,7 @@ package utils.concurrent.pool;
 
 import java.util.HashSet;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -53,7 +54,7 @@ public class YqThreadPool {
                 threadSet.add(worker);
                 worker.start();
             } else if (threadSet.size() < maxSize) {
-                Worker worker = new Worker(task, timeout, unit);
+                Worker worker = new Worker(task, true);
                 threadSet.add(worker);
                 worker.start();
             } else {
@@ -65,6 +66,26 @@ public class YqThreadPool {
 
     }
 
+    public void execute(Runnable task, CountDownLatch latch) {
+        synchronized (this) {
+            if (threadSet.size() < coreSize) {
+                Worker worker = new Worker(task);
+                threadSet.add(worker);
+                worker.start();
+            } else if (threadSet.size() < maxSize) {
+                Worker worker = new Worker(task, true);
+                threadSet.add(worker);
+                worker.start();
+            } else {
+                boolean offered = taskQueue.offer(task);
+                if (!offered)
+                    handler.reject(taskQueue, task);
+            }
+        }
+
+    }
+
+
     //=========================================================================================================
     // data structure
     //=========================================================================================================
@@ -73,22 +94,30 @@ public class YqThreadPool {
 
         private Runnable task;
 
+        // 临时线程标记
         private boolean tempThread = false;
-
-        private long timeout;
-        private TimeUnit unitUnit;
+        // 用于线程池和其他外部线程同步，默认线程池都是工作线程，主动倒计时的
+        private CountDownLatch latch;
 
         public Worker(Runnable task) {
             this.task = task;
+            this.setDaemon(true);
         }
 
-        public Worker(Runnable task, long timeout, TimeUnit unit) {
+        public Worker(Runnable task,boolean tempThread) {
             this.task = task;
-            this.timeout = timeout;
-            this.unitUnit = unit;
+            this.tempThread = tempThread;
 
-            this.tempThread = true;
+            this.setDaemon(true);
         }
+
+        public Worker(Runnable task,boolean tempThread,CountDownLatch latch) {
+            this.task = task;
+            this.tempThread = tempThread;
+            this.latch = latch;
+            this.setDaemon(true);
+        }
+
 
         @Override
         public void run() {
@@ -100,6 +129,10 @@ public class YqThreadPool {
                     // global exception catch
                     e.printStackTrace();
                 }
+
+                if (latch!=null)
+                    break;
+
                 // take next task
                 // 临时线程取任务的时候会等待，超时就返回null，退出循环被回收
                 try {
@@ -112,6 +145,8 @@ public class YqThreadPool {
                 }
             }
 
+            if (latch!=null)
+                latch.countDown();
             threadSet.remove(this);
         }
     }

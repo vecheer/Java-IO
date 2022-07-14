@@ -4,7 +4,7 @@ import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 
-public class YqAtomicInteger {
+public class YqAtomicInt {
 
     private static Unsafe unsafe;
     private static long intValueOffset; // the Value field of MyAtomicInteger class mode
@@ -18,14 +18,14 @@ public class YqAtomicInteger {
             field.setAccessible(true);
 
             unsafe = (Unsafe) field.get(null);
-            intValueOffset = unsafe.objectFieldOffset(YqAtomicInteger.class.getDeclaredField("value"));
+            intValueOffset = unsafe.objectFieldOffset(YqAtomicInt.class.getDeclaredField("value"));
         } catch (NoSuchFieldException | IllegalAccessException  ignored) {
         }
     }
 
     private volatile int value;
 
-    public YqAtomicInteger(int value) {
+    public YqAtomicInt(int value) {
         this.value = value;
     }
 

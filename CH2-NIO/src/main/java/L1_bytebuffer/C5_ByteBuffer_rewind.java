@@ -1,10 +1,10 @@
 package L1_bytebuffer;
 
-import heimaUtil.ByteBufferUtil;
+import xheimaUtil.ByteBufferUtil;
 
 import java.nio.ByteBuffer;
 
-public class C3_ByteBuffer_put_flip_get {
+public class C5_ByteBuffer_rewind {
     public static void main(String[] args) {
         ByteBuffer buffer = ByteBuffer.allocate(7);
         buffer.put((byte)'y');
@@ -20,5 +20,15 @@ public class C3_ByteBuffer_put_flip_get {
 
         System.out.println("读取下一个postion: " + (char)buffer.get());
         System.out.println("读取下一个postion: " + (char)buffer.get());
+
+        System.out.println("读完两个字符后, buffer现状: ");
+        ByteBufferUtil.debugAll(buffer);
+
+        System.out.println("rewind后, buffer现状: ");
+        buffer.rewind();
+        ByteBufferUtil.debugAll(buffer);
+        System.out.println("读取下一个postion: " + (char)buffer.get());
+        System.out.println("读取下一个postion: " + (char)buffer.get());
+
     }
 }

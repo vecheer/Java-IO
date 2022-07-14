@@ -1,6 +1,6 @@
 package utils.data;
 
-import utils.concurrent.atomic.YqAtomicInteger;
+import utils.concurrent.atomic.YqAtomicInt;
 
 import java.util.Random;
 import java.util.UUID;
@@ -14,7 +14,7 @@ public class Generator {
     }
 
     // 生成随机名称: baseName-atomicInt
-    private static YqAtomicInteger count = new YqAtomicInteger(0);
+    private static YqAtomicInt count = new YqAtomicInt(0);
     public static String getRandomName(String baseName){
         return baseName + "-" + count.getAndDecrement();
     }

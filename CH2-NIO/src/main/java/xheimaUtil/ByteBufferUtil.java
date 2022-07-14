@@ -1,9 +1,9 @@
-package heimaUtil;
-import java.nio.ByteBuffer;
+package xheimaUtil;
 
 import io.netty.util.internal.MathUtil;
 import io.netty.util.internal.StringUtil;
-import io.netty.util.internal.MathUtil.*;
+
+import java.nio.ByteBuffer;
 
 
 /**
