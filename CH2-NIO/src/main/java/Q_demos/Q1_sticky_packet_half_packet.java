@@ -41,7 +41,7 @@ public class Q1_sticky_packet_half_packet {
         int mark = 0;
         for (int i = 0; i < source.limit(); i++) {
             if ((char)source.get(i) == '\n') {
-                ByteBuffer temp = ByteBuffer.allocate(i-mark);
+                ByteBuffer temp = ByteBuffer.allocate(i-mark+1);
                 for (int j = mark; j <= i; j++) {
                     // 这个地方只能先get(i)，再在这里get()，如果compact那边就没有内容可以整理了
                     temp.put(source.get());
