@@ -22,26 +22,25 @@ public class Q1_sticky_packet_half_packet {
 
         // 接收第1个包
         buffer.put(input1);
-        List<ByteBuffer> list1 = bufferParse(buffer);
+        List<ByteBuffer> list1 = bufferParse(buffer,'\n');
         list1.forEach(ByteBufferUtil::debugAll);
 
         // 接收第2个包
         buffer.put(input2);
-        List<ByteBuffer> list2 = bufferParse(buffer);
+        List<ByteBuffer> list2 = bufferParse(buffer,'\n');
         list2.forEach(ByteBufferUtil::debugAll);
 
     }
 
 
     // 解析收到的buffer，并按照粘包和拆包解析
-    public static List<ByteBuffer> bufferParse(ByteBuffer source){
+    public static List<ByteBuffer> bufferParse(ByteBuffer source,char splitChar){
         final List<ByteBuffer> receivedCache = new LinkedList<>();
         // 置为读
         source.flip();
         int mark = 0;
         for (int i = 0; i < source.limit(); i++) {
-            byte nowByte = source.get(i);
-            if ((char)nowByte == '\n') {
+            if ((char)source.get(i) == splitChar) {
                 ByteBuffer temp = ByteBuffer.allocate(i-mark);
                 for (int j = mark; j < i; j++) {
                     temp.put(source.get()); // 这个地方只能先get(i)，再在这里get()，如果compact那边就没有内容可以整理了
