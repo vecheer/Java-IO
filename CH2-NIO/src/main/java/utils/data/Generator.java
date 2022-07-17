@@ -19,9 +19,15 @@ public class Generator {
         return baseName + "-" + count.getAndDecrement();
     }
 
-    // 获取随机数(0,upper]
+    // 获取随机数[1,upper]
     // 并发场景下调用，会生成大量的Random()对象，需要gc优化
     public static int getRandomInt(int upper){
-        return new Random().nextInt(upper) + 1;
+        return new Random().nextInt(upper-1);
+    }
+
+    // 获取随机数[0,limit]
+    // 并发场景下调用，会生成大量的Random()对象，需要gc优化
+    public static int getRandomIndex(int limit){
+        return new Random().nextInt(limit);
     }
 }
