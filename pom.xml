@@ -11,6 +11,7 @@
     <modules>
         <module>CH1-BIO</module>
         <module>CH2-NIO</module>
+        <module>CH3-Netty</module>
     </modules>
 
     <properties>
