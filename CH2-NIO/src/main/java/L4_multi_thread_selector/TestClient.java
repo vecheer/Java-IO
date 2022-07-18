@@ -14,13 +14,18 @@ import java.nio.charset.Charset;
  */
 public class TestClient {
     public static void main(String[] args) {
-        try {
-            SocketChannel channel = SocketChannel.open();
-            channel.connect(new InetSocketAddress("localhost", 8080));
-            channel.write(Charset.defaultCharset().encode("hello wyq"));
-            channel.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (int i = 0; i < 10; i++) {
+            int finalI = i;
+            new Thread(()->{
+                try {
+                    SocketChannel channel = SocketChannel.open();
+                    channel.connect(new InetSocketAddress("localhost", 8080));
+                    channel.write(Charset.defaultCharset().encode("hello wyq" + finalI));
+                    channel.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
         }
     }
 }
