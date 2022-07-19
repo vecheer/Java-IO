@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="CH2-NIO" />
         <module name="CH1-BIO" />
+        <module name="CH3-Netty" />
       </profile>
     </annotationProcessing>
   </component>

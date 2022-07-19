@@ -33,8 +33,8 @@ public class C4_biz_handling {
                                 })
                                 .addLast(bizGroup,"biz_handler",new ChannelInboundHandlerAdapter() {
                                     @Override
-                                    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-                                        bizGroup.execute(msg);
+                                    public void channelRead(ChannelHandlerContext ctx, Object msg)  {
+                                        log.info("handling");
                                     }
                                 });
                     }
