@@ -26,15 +26,17 @@ public class C4_biz_handling {
                                 .addLast("IO_handler", new ChannelInboundHandlerAdapter() {
                                     @Override
                                     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-                                        ByteBuf buf = (ByteBuf) msg;
-                                        log.info(buf.toString(StandardCharsets.UTF_8));
+                                        log.info("IO handler processing");
                                         ctx.fireChannelRead(msg);
                                     }
                                 })
                                 .addLast(bizGroup,"biz_handler",new ChannelInboundHandlerAdapter() {
                                     @Override
                                     public void channelRead(ChannelHandlerContext ctx, Object msg)  {
-                                        log.info("handling");
+                                        log.info("biz worker handling");
+                                        ByteBuf buf = (ByteBuf) msg;
+                                        log.info(buf.toString(StandardCharsets.UTF_8));
+
                                     }
                                 });
                     }
