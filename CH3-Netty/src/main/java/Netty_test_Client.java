@@ -1,4 +1,7 @@
 import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -8,8 +11,9 @@ import java.net.InetSocketAddress;
 
 public class Netty_test_Client {
     public static void main(String[] args) throws InterruptedException {
-        new Bootstrap()
-                .group(new NioEventLoopGroup())
+        NioEventLoopGroup group = new NioEventLoopGroup();
+        Channel channel = new Bootstrap()
+                .group(group)
                 .channel(NioSocketChannel.class)
                 .handler(new ChannelInitializer<NioSocketChannel>() {
                     // 在连接建立后会调用
@@ -18,10 +22,17 @@ public class Netty_test_Client {
                         ch.pipeline().addLast(new StringEncoder());
                     }
                 })
-                .connect(new InetSocketAddress("localhost",8080))
+                .connect(new InetSocketAddress("localhost", 8080))
                 .sync()
-                .channel()
-                .writeAndFlush("hello!");
+                .channel();
+
+        channel.writeAndFlush("wyq");
+        channel.writeAndFlush("dy");
+        channel.writeAndFlush("zdk");
+
+        channel.close();
+        channel.closeFuture().addListener((ChannelFutureListener) future -> group.shutdownGracefully());
+
 
     }
 }
