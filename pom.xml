@@ -73,6 +73,12 @@
         </dependency>
 
 
+        <!-- 打印 java 对象头信息 -->
+        <dependency>
+            <groupId>org.openjdk.jol</groupId>
+            <artifactId>jol-core</artifactId>
+            <version>0.16</version>
+        </dependency>
 
 
     </dependencies>
